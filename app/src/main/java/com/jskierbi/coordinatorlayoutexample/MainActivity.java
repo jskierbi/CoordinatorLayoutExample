@@ -1,6 +1,7 @@
 package com.jskierbi.coordinatorlayoutexample;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,12 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.Bind;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+
+import java.util.concurrent.TimeUnit;
 
 import static butterknife.ButterKnife.bind;
 
@@ -29,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
 	@Bind(R.id.recycler_view)
 	RecyclerView mRecyclerView;
+	@Bind(R.id.swipe_refresh_layout)
+	SwipeRefreshLayout mSwipeRefreshLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +55,20 @@ public class MainActivity extends AppCompatActivity {
 			}
 			@Override public int getItemCount() {
 				return ITEMS.length;
+			}
+		});
+
+		mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override public void onRefresh() {
+				Observable.just(new Object())
+								.delay(2, TimeUnit.SECONDS)
+								.subscribeOn(Schedulers.io())
+								.observeOn(AndroidSchedulers.mainThread())
+								.subscribe(new Action1<Object>() {
+									@Override public void call(Object o) {
+										mSwipeRefreshLayout.setRefreshing(false);
+									}
+								});
 			}
 		});
 	}
