@@ -1,6 +1,7 @@
 package com.jskierbi.coordinatorlayoutexample;
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
 	RecyclerView mRecyclerView;
 	@Bind(R.id.swipe_refresh_layout)
 	SwipeRefreshLayout mSwipeRefreshLayout;
+	@Bind(R.id.collapsing_toolbar_layout)
+	CollapsingToolbarLayout mCollapsingToolbarLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
 								});
 			}
 		});
+
+		mCollapsingToolbarLayout.setTitle("Super duper title");
 	}
 
 	static class ViewHolder extends RecyclerView.ViewHolder {
